@@ -1,2 +1,2 @@
 # Let's chat!
-A React Native chat application built using Expo.
+A React Native, mobile chat application developed using Expo, and utilizes Google Firestore Database to store chat messages and view them while offline.  In addition to the chat interface, the app allows the user to share images and their location.
