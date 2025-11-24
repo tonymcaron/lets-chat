@@ -1,3 +1,6 @@
+//Added as per ChatGPT corrections
+import 'react-native-reanimated';
+
 import Start from './components/Start';
 import Chat from './components/Chat';
 import { NavigationContainer } from '@react-navigation/native';

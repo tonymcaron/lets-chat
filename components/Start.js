@@ -5,6 +5,8 @@ import {
   TextInput,
   ImageBackground,
   TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { useState, useEffect } from 'react';
 
@@ -14,7 +16,7 @@ const Start = ({ navigation }) => {
   const [name, setName] = useState('');
   const [selectedColor, setSelectedColor] = useState();
   const colorOptions = ["#090C08", "#474056", "#8A95A5", "#B9C4AE"];
-  // const colorLabels = ["Black", "Purple", "Blue", "Green"];
+  const colorLabels = ["Black", "Purple", "Blue", "Green"];
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -64,7 +66,7 @@ const Start = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Start chatting button container */}
+        {/* "Start chatting" button container */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -74,6 +76,8 @@ const Start = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
+      {/* Keyboard adjustments for iOS */}
+      {Platform.OS === 'ios' ? <KeyboardAvoidingView behavior="padding" /> : null}
     </ImageBackground>
   );
 }

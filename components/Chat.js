@@ -1,26 +1,83 @@
-import { StyleSheet, View, Text } from 'react-native';
-import { useEffect } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import { useEffect, useState } from 'react';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
 const Chat = ({ route, navigation }) => {
   const { name, color } = route.params;
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    navigation.setOptions({ title: name });
+    // Set screen title to user's name
+    navigation.setOptions({ title: name })
+
+    setMessages([
+      {
+        _id: 1,
+        text: "Hello developer",
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: "https://placeimg.com/140/140/any",
+        },
+      },
+      {
+        _id: 2,
+        text: "You have entered the chat",
+        createdAt: new Date(),
+        system: true,
+      },
+    ]);
   }, []);
+
+  //Handler to append new messages to the messages array
+  const onSend = (newMessages) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
+  }
+
+  // Customize chat bubble colors
+  const renderBubble = (props) => {
+    return <Bubble
+      {...props}
+      wrapperStyle={{
+        right: {
+          backgroundColor: "#000"
+        },
+        left: {
+          backgroundColor: "#FFF"
+        }
+      }}
+    />
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
-      <Text>Welcome to the Chat Screen!</Text>
+      <GiftedChat
+        messages={messages}
+        renderBubble={renderBubble}
+        onSend={messages => onSend(messages)}
+        user={{
+          _id: 1,
+        }}
+      />
+      {/* Keyboard adjustments for Android */}
+      {Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
 });
 
 export default Chat;
